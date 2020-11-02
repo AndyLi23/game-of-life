@@ -39,6 +39,8 @@ class Game:
         self.height = 1000
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.exit = False
+        self.paused = False;
+        self.clicked = False
 
     def run(self):   
         
@@ -56,20 +58,29 @@ class Game:
                 # quit
                 if event.type == pygame.QUIT:
                     pygame.quit()
+            
+            keys = pygame.key.get_pressed()
+            if keys[K_SPACE]:
+                if not self.clicked:
+                    self.clicked = True
+                    self.paused = not self.paused
+            else:
+                self.clicked = False                    
                 
+            if not self.paused:
 
-            # refresh screen
-            self.screen.fill((200, 200, 200))
-            
-            arr = update(arr).copy()
-            
-            for i in range(200):
-                for j in range(200):
-                    if arr[i][j] == 1:
-                        r = pygame.Rect(i*5, j*5, 5, 5)
-                        pygame.draw.rect(self.screen, (0,0,0), r)
-                        
-            pygame.display.flip()
+                # refresh screen
+                self.screen.fill((200, 200, 200))
+                
+                arr = update(arr).copy()
+                
+                for i in range(200):
+                    for j in range(200):
+                        if arr[i][j] == 1:
+                            r = pygame.Rect(i*5, j*5, 5, 5)
+                            pygame.draw.rect(self.screen, (0,0,0), r)
+                            
+                pygame.display.flip()
                         
 
             
